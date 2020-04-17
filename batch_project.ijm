@@ -3,9 +3,9 @@
 
 
 //for input and output directories I just created a desktop input and output folder and typed their directories below
-//place all .lif files into the input directory before start
-input = "C:\\your\\input\\directory\\here\\"
-output = "C:\\your\\output\\directory\\here\\"
+//place all .lif files into the input directory before start. For Mac change all back slashes to single forward slashes.
+input = "C:\\Users\\Michael Blanchard\\Desktop\\input\\"
+output = "C:\\Users\\Michael Blanchard\\Desktop\\output\\"
 
 setBatchMode(true); 
 //get list of all files in input directory
@@ -27,7 +27,11 @@ function project(input, output, filename) {
 	for(i = 0; i < seriesCount; i++){
 		run("Bio-Formats Importer", "open=["+input + filename+"] color_mode=Colorized view=Hyperstack stack_order=XYCZT series_"+(i+1));
 		run("Z Project...", "projection=[Max Intensity]");
-		saveAs("Tiff", output + (i+1) + "_" + filename);
+		//set to current series
+		Ext.setSeries(i);
+		//extract series name 
+		Ext.getSeriesName(seriesName); 
+		saveAs("Tiff", output + seriesName);
 	}
 	close();
 }
